@@ -39,6 +39,14 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+
+        // Se l'utente preme Esc mette il gioco in pausa
+        // (a meno che non sia già morto; in tal caso è già stato chiamato il gameover)
+        if (Input.GetKeyDown(KeyCode.Escape))
+            PressEsc();
+
+
+
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
 
         waveCounter.text = "Wave: " + actualWave.ToString("F0");
@@ -46,8 +54,6 @@ public class GameManager : MonoBehaviour
         playerscore.text = "Score: " + score.ToString("F0");
 
         playerCredits.text = "Credits: " + player.GetPlayerCredits().ToString("F0");
-
-
 
         // Gestione della generazione degli zombie ad ogni ondata. Ci sono 5 punti di spawn, gli zombie vengono spawnati a gruppi di 5 ogni 10 secondi;
         // il numero di zombie generati ad ogni ondata corrisponde a (5 * numero_ondata_attuale)
@@ -109,19 +115,6 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-        // Se l'utente preme Esc mette il gioco in pausa (a meno che non sia già morto; in tal caso è già stato chiamato il gameover)
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (pauseMenu && !isGameOver) {
-                ResumeGame();
-                
-            } else if (!pauseMenu && !isGameOver) {
-                pauseMenuOverlay.SetActive(true);
-                StopGame();
-            }
-        }
-
     }
 
 
@@ -157,6 +150,18 @@ public class GameManager : MonoBehaviour
     }
 
 
+    private void PressEsc()
+    {
+        if (pauseMenu && !isGameOver) {
+            ResumeGame();
+
+        } else if (!pauseMenu && !isGameOver)
+        {
+            pauseMenuOverlay.SetActive(true);
+            StopGame();
+        }
+
+    }
 
 
     
